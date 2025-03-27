@@ -43,9 +43,9 @@ export function ContactForm() {
   }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+    <div className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md" data-testid="contact-form">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" data-testid="contact-form-element">
           <FormField
             control={form.control}
             name="name"
@@ -53,9 +53,13 @@ export function ContactForm() {
               <FormItem>
                 <FormLabel>{t('form.name.label')}</FormLabel>
                 <FormControl>
-                  <Input placeholder={t('form.name.placeholder')} {...field} />
+                  <Input 
+                    placeholder={t('form.name.placeholder')} 
+                    data-testid="name-input"
+                    {...field} 
+                  />
                 </FormControl>
-                <FormMessage />
+                <FormMessage data-testid="name-error" />
               </FormItem>
             )}
           />
@@ -70,10 +74,11 @@ export function ContactForm() {
                   <Input 
                     type="email" 
                     placeholder={t('form.email.placeholder')} 
+                    data-testid="email-input"
                     {...field} 
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage data-testid="email-error" />
               </FormItem>
             )}
           />
@@ -87,11 +92,12 @@ export function ContactForm() {
                 <FormControl>
                   <Textarea 
                     placeholder={t('form.message.placeholder')} 
+                    data-testid="message-input"
                     {...field} 
                     rows={4}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage data-testid="message-error" />
               </FormItem>
             )}
           />
@@ -99,6 +105,7 @@ export function ContactForm() {
           <Button 
             type="submit" 
             className="w-full"
+            data-testid="submit-button"
             disabled={form.formState.isSubmitting}
           >
             {form.formState.isSubmitting ? t('form.submitting') : t('form.submit')}
