@@ -34,7 +34,7 @@ export default function CounterInput() {
           type="number"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          className="px-2 py-1 border rounded w-20 text-center"
+          className="px-2 py-1 border rounded w-20 text-center bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary dark:focus:ring-primary dark:focus:border-primary"
           placeholder="Value"
           aria-label="Set counter value"
           data-testid="counter-input"
@@ -45,6 +45,7 @@ export default function CounterInput() {
           variant="outline"
           data-testid="set-counter-button"
           disabled={!isHydrated}
+          className="dark:text-white dark:hover:bg-gray-700"
         >
           Set
         </Button>
