@@ -1,0 +1,33 @@
+"use client";
+
+import CounterDisplay from "./CounterDisplay";
+import CounterControls from "./CounterControls";
+import CounterInput from "./CounterInput";
+
+interface CounterProps {
+  readonly title?: string;
+  readonly label?: string;
+}
+
+export default function Counter({ 
+  title = "Counter Example", 
+  label = "Count"
+}: Readonly<CounterProps>) {
+  return (
+    <div 
+      className="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md"
+      data-testid="counter-widget"
+    >
+      <h2 
+        className="text-xl font-bold text-center mb-4"
+        data-testid="counter-title"
+      >
+        {title}
+      </h2>
+      
+      <CounterDisplay label={label} />
+      <CounterControls />
+      <CounterInput />
+    </div>
+  );
+} 
