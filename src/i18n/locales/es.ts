@@ -14,6 +14,27 @@ export default {
       dark: 'Modo oscuro',
     },
   },
+  form: {
+    name: {
+      label: 'Nombre',
+      placeholder: 'Ingrese su nombre',
+    },
+    email: {
+      label: 'Correo electrónico',
+      placeholder: 'Ingrese su correo electrónico',
+    },
+    message: {
+      label: 'Mensaje',
+      placeholder: 'Ingrese su mensaje',
+    },
+    submit: 'Enviar',
+    submitting: 'Enviando...',
+    validation: {
+      nameRequired: 'El nombre debe tener al menos 2 caracteres',
+      emailInvalid: 'Dirección de correo electrónico inválida',
+      messageRequired: 'El mensaje debe tener al menos 10 caracteres',
+    },
+  },
   pages: {
     home: {
       title: 'Bienvenido a Next App',
@@ -26,7 +47,7 @@ export default {
     },
     about: {
       title: 'Sobre Nosotros',
-      description: 'Aprende más sobre nuestro equipo y misión',
+      description: 'Conozca más sobre nuestro equipo y misión',
     },
   },
 } as const; 
