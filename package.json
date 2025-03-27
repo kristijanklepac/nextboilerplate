@@ -27,7 +27,13 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
     "prepare": "husky",
-    "commit": "cz"
+    "commit": "cz",
+    "version:major": "npm version major -m 'chore: bump version to %s'",
+    "version:minor": "npm version minor -m 'chore: bump version to %s'",
+    "version:patch": "npm version patch -m 'chore: bump version to %s'",
+    "version:rc": "npm version prerelease --preid=rc -m 'chore: bump version to %s'",
+    "version:beta": "npm version prerelease --preid=beta -m 'chore: bump version to %s'",
+    "version:alpha": "npm version prerelease --preid=alpha -m 'chore: bump version to %s'"
   },
   "dependencies": {
     "@commitlint/cli": "^19.8.0",
