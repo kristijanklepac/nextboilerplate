@@ -31,8 +31,24 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     
     let selectedLanguage: Locale = 'en';
     
-    if (savedLanguage === 'hr' || browserLanguage === 'hr') {
-      selectedLanguage = 'hr';
+    // Check for saved language preference
+    if (savedLanguage && ['en', 'hr', 'es', 'fr'].includes(savedLanguage)) {
+      selectedLanguage = savedLanguage as Locale;
+    } else {
+      // Check browser language
+      switch (browserLanguage) {
+        case 'hr':
+          selectedLanguage = 'hr';
+          break;
+        case 'es':
+          selectedLanguage = 'es';
+          break;
+        case 'fr':
+          selectedLanguage = 'fr';
+          break;
+        default:
+          selectedLanguage = 'en';
+      }
     }
     
     setLocale(selectedLanguage);

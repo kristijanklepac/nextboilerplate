@@ -22,8 +22,10 @@ export function LanguageSwitcher() {
       name="language"
       value={locale}
       onChange={(e) => setLocale(e.target.value)}
+      className="p-2 rounded-lg bg-background border border-input hover:bg-accent hover:text-accent-foreground"
     >
       <option value="en">English</option>
+      <option value="hr">Hrvatski</option>
       <option value="es">Español</option>
       <option value="fr">Français</option>
     </select>
