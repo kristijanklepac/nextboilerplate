@@ -33,7 +33,8 @@ function parseVersion(version: string): Version {
 }
 
 // Get version from package.json
-const packageVersion = process.env.npm_package_version || '0.0.0';
+import packageJson from '../../package.json';
+const packageVersion = packageJson.version || '0.0.0';
 
 export const VERSION: Version = parseVersion(packageVersion);
 
