@@ -1,6 +1,6 @@
 "use client";
 
-import { createFormFactory } from "@tanstack/react-form";
+import { createFormHook } from "@tanstack/react-form";
 import { z } from "zod";
 
 // Define form schema using Zod
@@ -12,151 +12,150 @@ const contactSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
-// Create a form factory with our schema
-const formFactory = createFormFactory<ContactFormData>({
-  defaultValues: {
-    name: "",
-    email: "",
-    message: "",
-  },
-});
+// Create a form hook with our schema
+const useForm = createFormHook<ContactFormData>();
 
 export function ContactForm() {
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+    onSubmit: async ({ value }) => {
+      // Here you would typically send the form data to your API
+      console.log("Form submitted:", value);
+    },
+  });
+
   return (
     <div className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-      {formFactory.useForm({
-        onSubmit: async ({ value }) => {
-          // Here you would typically send the form data to your API
-          console.log("Form submitted:", value);
-        },
-      }, ({ Field, handleSubmit, state }) => (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            handleSubmit();
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          form.handleSubmit();
+        }}
+        className="space-y-4"
+      >
+        <form.Field
+          name="name"
+          validators={{
+            onChange: ({ value }) => {
+              const result = contactSchema.shape.name.safeParse(value);
+              if (!result.success) {
+                return result.error.errors[0].message;
+              }
+              return undefined;
+            },
           }}
-          className="space-y-4"
         >
-          <Field
-            name="name"
-            validators={{
-              onChange: ({ value }) => {
-                const result = contactSchema.shape.name.safeParse(value);
-                if (!result.success) {
-                  return result.error.errors[0].message;
-                }
-                return undefined;
-              },
-            }}
-          >
-            {(field) => (
-              <div>
-                <label 
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-200"
-                >
-                  Name
-                </label>
-                <input
-                  id="name"
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
-                />
-                {field.state.meta.errors && (
-                  <div className="mt-1 text-sm text-red-600 dark:text-red-400">
-                    {field.state.meta.errors}
-                  </div>
-                )}
-              </div>
-            )}
-          </Field>
+          {(field) => (
+            <div>
+              <label 
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-200"
+              >
+                Name
+              </label>
+              <input
+                id="name"
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
+              />
+              {field.state.meta.errors && (
+                <div className="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {field.state.meta.errors}
+                </div>
+              )}
+            </div>
+          )}
+        </form.Field>
 
-          <Field
-            name="email"
-            validators={{
-              onChange: ({ value }) => {
-                const result = contactSchema.shape.email.safeParse(value);
-                if (!result.success) {
-                  return result.error.errors[0].message;
-                }
-                return undefined;
-              },
-            }}
-          >
-            {(field) => (
-              <div>
-                <label 
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-200"
-                >
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
-                />
-                {field.state.meta.errors && (
-                  <div className="mt-1 text-sm text-red-600 dark:text-red-400">
-                    {field.state.meta.errors}
-                  </div>
-                )}
-              </div>
-            )}
-          </Field>
+        <form.Field
+          name="email"
+          validators={{
+            onChange: ({ value }) => {
+              const result = contactSchema.shape.email.safeParse(value);
+              if (!result.success) {
+                return result.error.errors[0].message;
+              }
+              return undefined;
+            },
+          }}
+        >
+          {(field) => (
+            <div>
+              <label 
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-200"
+              >
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
+              />
+              {field.state.meta.errors && (
+                <div className="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {field.state.meta.errors}
+                </div>
+              )}
+            </div>
+          )}
+        </form.Field>
 
-          <Field
-            name="message"
-            validators={{
-              onChange: ({ value }) => {
-                const result = contactSchema.shape.message.safeParse(value);
-                if (!result.success) {
-                  return result.error.errors[0].message;
-                }
-                return undefined;
-              },
-            }}
-          >
-            {(field) => (
-              <div>
-                <label 
-                  htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-200"
-                >
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  rows={4}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
-                />
-                {field.state.meta.errors && (
-                  <div className="mt-1 text-sm text-red-600 dark:text-red-400">
-                    {field.state.meta.errors}
-                  </div>
-                )}
-              </div>
-            )}
-          </Field>
+        <form.Field
+          name="message"
+          validators={{
+            onChange: ({ value }) => {
+              const result = contactSchema.shape.message.safeParse(value);
+              if (!result.success) {
+                return result.error.errors[0].message;
+              }
+              return undefined;
+            },
+          }}
+        >
+          {(field) => (
+            <div>
+              <label 
+                htmlFor="message"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-200"
+              >
+                Message
+              </label>
+              <textarea
+                id="message"
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                rows={4}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
+              />
+              {field.state.meta.errors && (
+                <div className="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {field.state.meta.errors}
+                </div>
+              )}
+            </div>
+          )}
+        </form.Field>
 
-          <button
-            type="submit"
-            disabled={state.isSubmitting}
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {state.isSubmitting ? "Submitting..." : "Submit"}
-          </button>
-        </form>
-      ))}
+        <button
+          type="submit"
+          disabled={form.state.isSubmitting}
+          className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {form.state.isSubmitting ? "Submitting..." : "Submit"}
+        </button>
+      </form>
     </div>
   );
 } 
