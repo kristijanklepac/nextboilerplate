@@ -3,15 +3,32 @@
 
 branch="$(git rev-parse --abbrev-ref HEAD)"
 
+# Function to check if branch exists
+branch_exists() {
+    git show-ref --verify --quiet "refs/heads/$1"
+    return $?
+}
+
+# If creating a new feature branch, ensure it's from latest development
+if [[ "$branch" =~ ^feature/ ]]; then
+    if ! branch_exists "$branch"; then
+        echo "🔄 New feature branch detected. Ensuring it's created from latest development..."
+        git fetch origin development
+        git reset --hard origin/development
+        echo "✅ Branch successfully synchronized with latest development"
+    fi
+fi
+
+# Protect main branches
 if [ "$branch" = "main" ] || [ "$branch" = "test" ] || [ "$branch" = "development" ]; then
-  echo "❌ You can't commit directly to $branch branch"
-  echo "Please follow this workflow:"
-  echo "1. Create a feature branch: git checkout -b feature/name development"
-  echo "2. Make your changes and commit to feature branch"
-  echo "3. Push and create a pull request to development"
-  echo "4. After approval, development can be merged to test"
-  echo "5. After testing, test can be merged to main"
-  exit 1
+    echo "❌ You can't commit directly to $branch branch"
+    echo "Please follow this workflow:"
+    echo "1. Create a feature branch: git checkout -b feature/name development"
+    echo "2. Make your changes and commit to feature branch"
+    echo "3. Push and create a pull request to development"
+    echo "4. After approval, development can be merged to test"
+    echo "5. After testing, test can be merged to main"
+    exit 1
 fi
 
 npm run test:run
