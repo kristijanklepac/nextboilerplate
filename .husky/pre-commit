@@ -1,4 +1,5 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+echo "npm run test:run" > .husky/pre-commit
+chmod +x .husky/pre-commit
 
-npm run test:run
+echo "npx --no -- commitlint --edit \"\$1\"" > .husky/commit-msg
+chmod +x .husky/commit-msg
