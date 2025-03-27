@@ -9,10 +9,31 @@ branch_exists() {
     return $?
 }
 
+# Define allowed branch types
+allowed_types="feature|fix|hotfix|release|chore|docs|test|refactor"
+
+# Check branch naming convention
+if [[ ! "$branch" =~ ^($allowed_types)/ ]] && [[ "$branch" != "main" ]] && [[ "$branch" != "development" ]] && [[ "$branch" != "test" ]]; then
+    echo "❌ Invalid branch name: $branch"
+    echo "Branch names must follow the pattern: <type>/<description>"
+    echo "Allowed types are:"
+    echo "- feature/  (new features)"
+    echo "- fix/      (bug fixes)"
+    echo "- hotfix/   (urgent fixes for production)"
+    echo "- release/  (release preparation)"
+    echo "- chore/    (maintenance tasks)"
+    echo "- docs/     (documentation updates)"
+    echo "- test/     (test additions or modifications)"
+    echo "- refactor/ (code refactoring)"
+    echo ""
+    echo "Example: feature/add-login-page"
+    exit 1
+fi
+
 # If creating a new feature branch, ensure it's from latest development
-if [[ "$branch" =~ ^feature/ ]]; then
+if [[ "$branch" =~ ^($allowed_types)/ ]]; then
     if ! branch_exists "$branch"; then
-        echo "🔄 New feature branch detected. Ensuring it's created from latest development..."
+        echo "🔄 New branch detected. Ensuring it's created from latest development..."
         git fetch origin development
         git reset --hard origin/development
         echo "✅ Branch successfully synchronized with latest development"
@@ -23,8 +44,9 @@ fi
 if [ "$branch" = "main" ] || [ "$branch" = "test" ] || [ "$branch" = "development" ]; then
     echo "❌ You can't commit directly to $branch branch"
     echo "Please follow this workflow:"
-    echo "1. Create a feature branch: git checkout -b feature/name development"
-    echo "2. Make your changes and commit to feature branch"
+    echo "1. Create a branch: git checkout -b <type>/name development"
+    echo "   (type can be: feature, fix, hotfix, release, chore, docs, test, refactor)"
+    echo "2. Make your changes and commit to your branch"
     echo "3. Push and create a pull request to development"
     echo "4. After approval, development can be merged to test"
     echo "5. After testing, test can be merged to main"
