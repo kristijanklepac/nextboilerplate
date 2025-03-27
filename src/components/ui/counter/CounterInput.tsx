@@ -5,14 +5,17 @@ import { useCounterStore } from "@/stores/counterStore";
 import { Button } from "@/components/ui/button";
 
 export default function CounterInput() {
-  // Get setCount from the store
-  const setCount = useCounterStore((state) => state.setCount);
+  // Use individual selectors for each value to maintain referential equality
+  const setCount = useCounterStore(state => state.setCount);
+  const isHydrated = useCounterStore(state => state.isHydrated);
   
   // Local state for the input field
   const [inputValue, setInputValue] = useState("");
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isHydrated) return;
+    
     const value = Number.parseInt(inputValue, 10);
     if (!Number.isNaN(value)) {
       setCount(value);
@@ -35,11 +38,13 @@ export default function CounterInput() {
           placeholder="Value"
           aria-label="Set counter value"
           data-testid="counter-input"
+          disabled={!isHydrated}
         />
         <Button 
           type="submit"
           variant="outline"
           data-testid="set-counter-button"
+          disabled={!isHydrated}
         >
           Set
         </Button>
