@@ -16,8 +16,8 @@ export default function CounterDisplay({ label = "Count" }: CounterDisplayProps)
 
   return (
     <div className="text-center py-4" data-testid="counter-display">
-      <p className="text-sm text-gray-500" data-testid="counter-label">{label}</p>
-      <p className="text-4xl font-bold h-[56px] flex items-center justify-center" data-testid="counter-value">
+      <p className="text-sm text-gray-500 dark:text-gray-400" data-testid="counter-label">{label}</p>
+      <p className="text-4xl font-bold h-[56px] flex items-center justify-center text-gray-900 dark:text-white" data-testid="counter-value">
         {displayValue}
       </p>
     </div>

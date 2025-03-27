@@ -30,6 +30,7 @@ export default function CounterControls() {
         variant="outline"
         data-testid="decrement-button"
         disabled={!isHydrated}
+        className="dark:text-white dark:hover:bg-gray-700"
       >
         -
       </Button>
@@ -39,6 +40,7 @@ export default function CounterControls() {
         variant="outline"
         data-testid="reset-button"
         disabled={!isHydrated}
+        className="dark:text-white dark:hover:bg-gray-700"
       >
         Reset
       </Button>
@@ -48,6 +50,7 @@ export default function CounterControls() {
         variant="outline"
         data-testid="increment-button"
         disabled={!isHydrated}
+        className="dark:text-white dark:hover:bg-gray-700"
       >
         +
       </Button>
