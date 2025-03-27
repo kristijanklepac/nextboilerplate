@@ -14,6 +14,27 @@ export default {
       dark: 'Dark mode',
     },
   },
+  form: {
+    name: {
+      label: 'Name',
+      placeholder: 'Enter your name',
+    },
+    email: {
+      label: 'Email',
+      placeholder: 'Enter your email',
+    },
+    message: {
+      label: 'Message',
+      placeholder: 'Enter your message',
+    },
+    submit: 'Submit',
+    submitting: 'Submitting...',
+    validation: {
+      nameRequired: 'Name must be at least 2 characters',
+      emailInvalid: 'Invalid email address',
+      messageRequired: 'Message must be at least 10 characters',
+    },
+  },
   pages: {
     home: {
       title: 'Welcome to Next App',
