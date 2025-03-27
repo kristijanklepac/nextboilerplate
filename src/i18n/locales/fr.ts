@@ -14,6 +14,27 @@ export default {
       dark: 'Mode sombre',
     },
   },
+  form: {
+    name: {
+      label: 'Nom',
+      placeholder: 'Entrez votre nom',
+    },
+    email: {
+      label: 'Email',
+      placeholder: 'Entrez votre email',
+    },
+    message: {
+      label: 'Message',
+      placeholder: 'Entrez votre message',
+    },
+    submit: 'Envoyer',
+    submitting: 'Envoi en cours...',
+    validation: {
+      nameRequired: 'Le nom doit contenir au moins 2 caractères',
+      emailInvalid: 'Adresse email invalide',
+      messageRequired: 'Le message doit contenir au moins 10 caractères',
+    },
+  },
   pages: {
     home: {
       title: 'Bienvenue sur Next App',

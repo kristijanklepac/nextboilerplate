@@ -2,6 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslation } from "@/stores/languageStore";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,16 +16,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-// Define form schema using Zod
-const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
-});
-
-type FormData = z.infer<typeof formSchema>;
-
 export function ContactForm() {
+  const { t } = useTranslation();
+
+  // Define form schema using Zod with translated messages
+  const formSchema = z.object({
+    name: z.string().min(2, t('form.validation.nameRequired')),
+    email: z.string().email(t('form.validation.emailInvalid')),
+    message: z.string().min(10, t('form.validation.messageRequired')),
+  });
+
+  type FormData = z.infer<typeof formSchema>;
+  
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,9 +51,9 @@ export function ContactForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>{t('form.name.label')}</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your name" {...field} />
+                  <Input placeholder={t('form.name.placeholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -62,9 +65,13 @@ export function ContactForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t('form.email.label')}</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="Enter your email" {...field} />
+                  <Input 
+                    type="email" 
+                    placeholder={t('form.email.placeholder')} 
+                    {...field} 
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -76,10 +83,10 @@ export function ContactForm() {
             name="message"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Message</FormLabel>
+                <FormLabel>{t('form.message.label')}</FormLabel>
                 <FormControl>
                   <Textarea 
-                    placeholder="Enter your message" 
+                    placeholder={t('form.message.placeholder')} 
                     {...field} 
                     rows={4}
                   />
@@ -94,7 +101,7 @@ export function ContactForm() {
             className="w-full"
             disabled={form.formState.isSubmitting}
           >
-            {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+            {form.formState.isSubmitting ? t('form.submitting') : t('form.submit')}
           </Button>
         </form>
       </Form>
