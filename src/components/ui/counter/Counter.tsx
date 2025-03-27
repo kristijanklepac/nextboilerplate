@@ -23,11 +23,11 @@ export default function Counter({
 
   return (
     <div 
-      className="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md"
+      className="p-6 max-w-md mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md"
       data-testid="counter-widget"
     >
       <h2 
-        className="text-xl font-bold text-center mb-4"
+        className="text-xl font-bold text-center mb-4 text-gray-900 dark:text-white"
         data-testid="counter-title"
       >
         {title}
