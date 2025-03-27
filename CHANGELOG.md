@@ -5,30 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0] - 2024-03-21
 
 ### Added
 
-- Semantic versioning support
+- Multi-language support with English, Croatian, Spanish, and French translations
+- Theme system with light/dark mode and system preference detection
+- Navigation component with responsive design and active link highlighting
 - Version display component
-- Version utility functions
-- Automated version bumping scripts
-- Branch protection and naming conventions
-- Git workflow documentation
+- Environment-specific configuration system
 - Comprehensive testing setup with Vitest
-- Multi-language support
-- Theme switching capability
-- Navigation component
+- Git workflow with branch protection and commit conventions
+- Semantic versioning support
+- Documentation including usage guides and API references
 
-## [0.1.0] - 2024-03-21
+### Changed
+
+- Updated language switcher to include all supported languages
+- Enhanced theme toggle with improved accessibility
+- Optimized testing configuration for better performance
+
+### Fixed
+
+- Theme toggle functionality using correct context methods
+- Language selection persistence across sessions
+- Navigation component hydration issues
+- Test suite configuration and mock implementations
+
+## [0.1.0] - 2024-03-20
 
 ### Added
 
 - Initial project setup
-- Next.js 14 configuration
+- Basic Next.js configuration
+- Tailwind CSS integration
 - Basic component structure
-- Development environment setup
-- Git hooks with Husky
-- Commitlint and Commitizen integration
-- ESLint and Prettier configuration
-- Basic testing infrastructure
