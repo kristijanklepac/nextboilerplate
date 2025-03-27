@@ -1,6 +1,6 @@
 import en from './locales/en';
 
-export type Locale = 'en' | 'hr';
+export type Locale = 'en' | 'hr' | 'es' | 'fr';
 export type TranslationKeys = typeof en;
 export type NestedKeyOf<T> = T extends object
   ? {

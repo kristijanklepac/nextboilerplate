@@ -3,6 +3,8 @@ import { persist } from 'zustand/middleware';
 // import { Locale } from '@/config/i18n.config';
 import en from '@/i18n/locales/en';
 import hr from '@/i18n/locales/hr';
+import es from '@/i18n/locales/es';
+import fr from '@/i18n/locales/fr';
 
 interface LanguageState {
   locale: string;
@@ -22,6 +24,8 @@ interface TranslationValue {
 const translations = {
   en,
   hr,
+  es,
+  fr,
 } as const;
 
 export const useLanguageStore = create<LanguageState>()(
@@ -44,7 +48,7 @@ export function useTranslation() {
   
   function t(key: string) {
     const keys = key.split('.');
-    let value: TranslationValue | string = translations[locale];
+    let value: TranslationValue | string = translations[locale as keyof typeof translations];
     
     for (const k of keys) {
       if (typeof value === 'object' && value !== null) {
