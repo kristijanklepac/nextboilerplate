@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "@tanstack/react-form";
+import { Form } from "@tanstack/react-form";
 import { z } from "zod";
 
 // Define form schema using Zod
@@ -13,40 +13,35 @@ const contactSchema = z.object({
 type ContactFormData = z.infer<typeof contactSchema>;
 
 export function ContactForm() {
-  const form = useForm<ContactFormData>({
-    defaultValues: {
-      name: "",
-      email: "",
-      message: "",
-    },
-    onSubmit: async ({ value }) => {
-      // Here you would typically send the form data to your API
-      console.log("Form submitted:", value);
-    },
-  });
-
   return (
     <div className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-      <form.Provider>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
-          }}
-          className="space-y-4"
-        >
-          <div>
-            <form.Field
+      <Form<ContactFormData>
+        defaultValues={{
+          name: "",
+          email: "",
+          message: "",
+        }}
+        onSubmit={async (values) => {
+          // Here you would typically send the form data to your API
+          console.log("Form submitted:", values);
+        }}
+      >
+        {({ Field, handleSubmit, isSubmitting }) => (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleSubmit();
+            }}
+            className="space-y-4"
+          >
+            <Field
               name="name"
-              validators={{
-                onChange: ({ value }) => {
-                  const result = contactSchema.shape.name.safeParse(value);
-                  if (!result.success) {
-                    return result.error.errors[0].message;
-                  }
-                  return undefined;
-                },
+              validate={(value) => {
+                const result = contactSchema.shape.name.safeParse(value);
+                if (!result.success) {
+                  return result.error.errors[0].message;
+                }
               }}
             >
               {(field) => (
@@ -71,20 +66,15 @@ export function ContactForm() {
                   )}
                 </div>
               )}
-            </form.Field>
-          </div>
+            </Field>
 
-          <div>
-            <form.Field
+            <Field
               name="email"
-              validators={{
-                onChange: ({ value }) => {
-                  const result = contactSchema.shape.email.safeParse(value);
-                  if (!result.success) {
-                    return result.error.errors[0].message;
-                  }
-                  return undefined;
-                },
+              validate={(value) => {
+                const result = contactSchema.shape.email.safeParse(value);
+                if (!result.success) {
+                  return result.error.errors[0].message;
+                }
               }}
             >
               {(field) => (
@@ -110,20 +100,15 @@ export function ContactForm() {
                   )}
                 </div>
               )}
-            </form.Field>
-          </div>
+            </Field>
 
-          <div>
-            <form.Field
+            <Field
               name="message"
-              validators={{
-                onChange: ({ value }) => {
-                  const result = contactSchema.shape.message.safeParse(value);
-                  if (!result.success) {
-                    return result.error.errors[0].message;
-                  }
-                  return undefined;
-                },
+              validate={(value) => {
+                const result = contactSchema.shape.message.safeParse(value);
+                if (!result.success) {
+                  return result.error.errors[0].message;
+                }
               }}
             >
               {(field) => (
@@ -149,18 +134,18 @@ export function ContactForm() {
                   )}
                 </div>
               )}
-            </form.Field>
-          </div>
+            </Field>
 
-          <button
-            type="submit"
-            disabled={form.state.isSubmitting}
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {form.state.isSubmitting ? "Submitting..." : "Submit"}
-          </button>
-        </form>
-      </form.Provider>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </button>
+          </form>
+        )}
+      </Form>
     </div>
   );
 } 
