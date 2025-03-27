@@ -6,6 +6,7 @@ export default {
       about: 'About Us',
       logging: 'Logging',
       version: 'Version',
+      contact: 'Contact',
     },
     theme: {
       toggle: 'Toggle theme',
