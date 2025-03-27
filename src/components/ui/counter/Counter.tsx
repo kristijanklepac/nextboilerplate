@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import CounterDisplay from "./CounterDisplay";
 import CounterControls from "./CounterControls";
 import CounterInput from "./CounterInput";
+import { hydrateStore } from "@/stores/counterStore";
 
 interface CounterProps {
   readonly title?: string;
@@ -13,6 +15,12 @@ export default function Counter({
   title = "Counter Example", 
   label = "Count"
 }: Readonly<CounterProps>) {
+  // Properly hydrate the store when the component mounts
+  useEffect(() => {
+    // Call the hydration helper
+    hydrateStore();
+  }, []);
+
   return (
     <div 
       className="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md"
