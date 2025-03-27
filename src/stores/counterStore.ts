@@ -35,8 +35,13 @@ export const getCounterState = () => useCounterStore.getState();
 // Set up storage event listener to sync state between tabs
 if (typeof window !== 'undefined') {
   window.addEventListener('storage', (e) => {
-    if (e.key === STORAGE_KEY && e.newValue !== null) {
-      useCounterStore.setState({ count: Number(e.newValue) });
+    if (e.key === STORAGE_KEY) {
+      try {
+        const newState = e.newValue ? JSON.parse(e.newValue) : { state: { count: 0 } };
+        useCounterStore.setState({ count: newState.state.count });
+      } catch (error) {
+        console.error('Error syncing counter state between tabs:', error);
+      }
     }
   });
 }

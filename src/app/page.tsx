@@ -5,7 +5,7 @@ export default function Home() {
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <Image
-          className="dark:invert"
+          className="dark:invert w-auto h-auto"
           src="/next.svg"
           alt="Next.js logo"
           width={180}
@@ -33,7 +33,7 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             <Image
-              className="dark:invert"
+              className="dark:invert w-5 h-5"
               src="/vercel.svg"
               alt="Vercel logomark"
               width={20}
@@ -60,6 +60,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
+            className="w-4 h-4"
             src="/file.svg"
             alt="File icon"
             width={16}
@@ -75,6 +76,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
+            className="w-4 h-4"
             src="/window.svg"
             alt="Window icon"
             width={16}
@@ -90,6 +92,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
+            className="w-4 h-4"
             src="/globe.svg"
             alt="Globe icon"
             width={16}
