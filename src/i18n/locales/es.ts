@@ -6,6 +6,7 @@ export default {
       about: 'Sobre Nosotros',
       logging: 'Registro',
       version: 'Versión',
+      contact: 'Contacto',
     },
     theme: {
       toggle: 'Cambiar tema',

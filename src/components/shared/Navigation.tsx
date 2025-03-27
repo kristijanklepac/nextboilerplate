@@ -96,6 +96,15 @@ export default function Navigation() {
                 {t('common.navigation.version')}
               </Link>
             </li>
+            <li>
+              <Link 
+                href="/contact" 
+                className={`${pathname === "/contact" ? "font-medium text-gray-900 dark:text-white" : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"}`}
+                data-testid="nav-contact"
+              >
+                {t('common.navigation.contact')}
+              </Link>
+            </li>
           </ul>
           <div className="flex items-center space-x-4">
             <VersionDisplay />
