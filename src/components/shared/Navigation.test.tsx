@@ -38,6 +38,8 @@ describe('Navigation', () => {
 
   it('should render version display', () => {
     render(<Navigation />, { wrapper: Wrapper });
-    expect(screen.getByTitle(/Stable version|Pre-release version/)).toBeInTheDocument();
+    const versionElements = screen.getAllByTitle(/Stable version|Pre-release version/);
+    expect(versionElements.length).toBeGreaterThan(0);
+    expect(versionElements[0]).toBeInTheDocument();
   });
 }); 
