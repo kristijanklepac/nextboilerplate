@@ -1,8 +1,7 @@
 "use client";
 
-import { createTsForm } from "@tanstack/react-form";
+import { useForm } from "@tanstack/react-form";
 import { z } from "zod";
-import { zodValidator } from "@tanstack/zod-form-adapter";
 
 // Define form schema using Zod
 const contactSchema = z.object({
@@ -13,36 +12,44 @@ const contactSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
-// Create form components with Zod validator
-const Form = createTsForm(zodValidator);
-
 export function ContactForm() {
+  const form = useForm<ContactFormData>({
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+    onSubmit: async ({ value }) => {
+      // Here you would typically send the form data to your API
+      console.log("Form submitted:", value);
+    },
+  });
+
   return (
     <div className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-      <Form
-        schema={contactSchema}
-        onSubmit={async (values) => {
-          // Here you would typically send the form data to your API
-          console.log("Form submitted:", values);
-        }}
-        defaultValues={{
-          name: "",
-          email: "",
-          message: "",
-        }}
-        className="space-y-4"
-      >
-        {({ Field, handleSubmit, isSubmitting }) => (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleSubmit();
-            }}
-            className="space-y-4"
-          >
-            <Field name="name">
-              {({ state, handleChange, handleBlur }) => (
+      <form.Provider>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+          className="space-y-4"
+        >
+          <div>
+            <form.Field
+              name="name"
+              validators={{
+                onChange: ({ value }) => {
+                  const result = contactSchema.shape.name.safeParse(value);
+                  if (!result.success) {
+                    return result.error.errors[0].message;
+                  }
+                  return undefined;
+                },
+              }}
+            >
+              {(field) => (
                 <div>
                   <label 
                     htmlFor="name"
@@ -52,22 +59,35 @@ export function ContactForm() {
                   </label>
                   <input
                     id="name"
-                    value={state.value}
-                    onBlur={handleBlur}
-                    onChange={(e) => handleChange(e.target.value)}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
                   />
-                  {state.meta.errors && (
+                  {field.state.meta.errors && (
                     <div className="mt-1 text-sm text-red-600 dark:text-red-400">
-                      {state.meta.errors.join(", ")}
+                      {field.state.meta.errors}
                     </div>
                   )}
                 </div>
               )}
-            </Field>
+            </form.Field>
+          </div>
 
-            <Field name="email">
-              {({ state, handleChange, handleBlur }) => (
+          <div>
+            <form.Field
+              name="email"
+              validators={{
+                onChange: ({ value }) => {
+                  const result = contactSchema.shape.email.safeParse(value);
+                  if (!result.success) {
+                    return result.error.errors[0].message;
+                  }
+                  return undefined;
+                },
+              }}
+            >
+              {(field) => (
                 <div>
                   <label 
                     htmlFor="email"
@@ -78,22 +98,35 @@ export function ContactForm() {
                   <input
                     id="email"
                     type="email"
-                    value={state.value}
-                    onBlur={handleBlur}
-                    onChange={(e) => handleChange(e.target.value)}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
                   />
-                  {state.meta.errors && (
+                  {field.state.meta.errors && (
                     <div className="mt-1 text-sm text-red-600 dark:text-red-400">
-                      {state.meta.errors.join(", ")}
+                      {field.state.meta.errors}
                     </div>
                   )}
                 </div>
               )}
-            </Field>
+            </form.Field>
+          </div>
 
-            <Field name="message">
-              {({ state, handleChange, handleBlur }) => (
+          <div>
+            <form.Field
+              name="message"
+              validators={{
+                onChange: ({ value }) => {
+                  const result = contactSchema.shape.message.safeParse(value);
+                  if (!result.success) {
+                    return result.error.errors[0].message;
+                  }
+                  return undefined;
+                },
+              }}
+            >
+              {(field) => (
                 <div>
                   <label 
                     htmlFor="message"
@@ -103,31 +136,31 @@ export function ContactForm() {
                   </label>
                   <textarea
                     id="message"
-                    value={state.value}
-                    onBlur={handleBlur}
-                    onChange={(e) => handleChange(e.target.value)}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
                     rows={4}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
                   />
-                  {state.meta.errors && (
+                  {field.state.meta.errors && (
                     <div className="mt-1 text-sm text-red-600 dark:text-red-400">
-                      {state.meta.errors.join(", ")}
+                      {field.state.meta.errors}
                     </div>
                   )}
                 </div>
               )}
-            </Field>
+            </form.Field>
+          </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? "Submitting..." : "Submit"}
-            </button>
-          </form>
-        )}
-      </Form>
+          <button
+            type="submit"
+            disabled={form.state.isSubmitting}
+            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {form.state.isSubmitting ? "Submitting..." : "Submit"}
+          </button>
+        </form>
+      </form.Provider>
     </div>
   );
 } 
