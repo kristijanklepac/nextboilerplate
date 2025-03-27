@@ -21,7 +21,7 @@
     "env:prod": "node scripts/set-env.js production",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:run": "vitest run --no-watch --no-ui --coverage --silent --reporter=verbose",
+    "test:run": "vitest run --no-watch --no-ui --silent --reporter=verbose",
     "coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
